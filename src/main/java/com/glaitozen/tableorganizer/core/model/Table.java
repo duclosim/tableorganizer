@@ -1,14 +1,21 @@
 package com.glaitozen.tableorganizer.core.model;
 
+import com.glaitozen.tableorganizer.utils.DateUtils;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Table {
 
     private final String id;
-    private String nom;
-    private String systeme;
+    private final String nom;
+    private final String systeme;
     private final User mdJ;
     private final Set<User> joueurs;
     private final Set<PropositionDeDate> propositions;
@@ -22,10 +29,9 @@ public class Table {
         this.systeme = systeme;
         this.mdJ = mdJ;
         this.joueurs = joueurs;
-        this.propositions = propositions;
-        this.prochaineDate = prochaineDate;
+        this.propositions = DateUtils.cleanPastPropositionDeDates(propositions);
+        this.prochaineDate = DateUtils.cleanPastDate(prochaineDate);
         this.rappels = rappels;
-        cleanProchaineDate();
     }
 
     public Table(String nom, String systeme, User mdJ) {
@@ -53,6 +59,10 @@ public class Table {
         return joueurs;
     }
 
+    public Set<PropositionDeDate> getPropositions() {
+        return propositions;
+    }
+
     public LocalDate getProchaineDate() {
         return prochaineDate;
     }
@@ -74,37 +84,76 @@ public class Table {
         return joueurs.stream().allMatch(j -> j.isAvailable(date)) && mdJ.isAvailable(date);
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return Objects.equals(id, table.id) && Objects.equals(nom, table.nom) && Objects.equals(systeme, table.systeme)
+                && Objects.equals(mdJ, table.mdJ) && Objects.equals(joueurs, table.joueurs)
+                && Objects.equals(propositions, table.propositions) && Objects.equals(prochaineDate, table.prochaineDate)
+                && Objects.equals(rappels, table.rappels);
     }
 
-    public void setSysteme(String systeme) {
-        this.systeme = systeme;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, systeme, mdJ, joueurs, propositions, prochaineDate, rappels);
     }
 
-    public void addUser(User joueur) {
+    @Override
+    public String toString() {
+        return "Table{" +
+                "id='" + id + '\'' +
+                ", nom='" + nom + '\'' +
+                ", systeme='" + systeme + '\'' +
+                ", mdJ=" + mdJ +
+                ", joueurs=" + joueurs +
+                ", propositions=" + propositions +
+                ", prochaineDate=" + prochaineDate +
+                ", rappels=" + rappels +
+                '}';
+    }
+
+    public void addJoueur(User joueur) {
         joueurs.add(joueur);
+    }
+
+    public void removeJoueur(User joueur) {
+        joueurs.remove(joueur);
+    }
+
+    void addProposition(LocalDate date) {
+        PropositionDeDate proposition = new PropositionDeDate(date);
+        proposition.users().add(mdJ);
+        joueurs.forEach(joueur -> proposition.users().add(joueur));
+        propositions.add(proposition);
+    }
+
+    public void addPropositions(Set<LocalDate> dates) {
+        dates.forEach(this::addProposition);
+        relancerJoueurs();
     }
 
     public void addRappel(Rappel r) {
         rappels.add(r);
     }
 
+    public void removeRappel(Rappel r) {
+        rappels.remove(r);
+    }
+
     public void confirmerProchaineDate(LocalDate prochaineDate) {
         this.prochaineDate = prochaineDate;
-        for (User joueur : joueurs) {
-            mdJ.addDateOccupee(prochaineDate);
-            joueur.addDateOccupee(prochaineDate);
-        }
+        mdJ.addDateOccupee(prochaineDate);
+        joueurs.forEach(joueur -> joueur.addDateOccupee(prochaineDate));
     }
 
     public void relancerJoueurs() {
-
+        if (!propositions.isEmpty()) {
+            for (User joueur : joueurs) {
+                joueur.notifierPropositions(propositions);
+            }
+        }
     }
-
-    void cleanProchaineDate() {
-        prochaineDate = prochaineDate.isBefore(LocalDate.now()) ? null : prochaineDate;
-    }
-
 
 }

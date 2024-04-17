@@ -1,0 +1,53 @@
+package com.glaitozen.tableorganizer.discord.command;
+
+import com.glaitozen.tableorganizer.discord.command.defaults.CommandExecutor;
+import com.glaitozen.tableorganizer.discord.command.defaults.CommandInfo;
+import com.glaitozen.tableorganizer.discord.component.DiscordMessage;
+import org.springframework.stereotype.Component;
+
+import java.awt.*;
+
+@Component
+public class EightBallCommand implements CommandExecutor {
+
+  @CommandInfo(value = "8ball", minArguments = 1, maxArguments = Integer.MAX_VALUE)
+  @Override
+  public void execute(DiscordMessage dMessage, CommandSender commandSender) {
+    try {
+      HttpResponse<JsonNode> httpResponse = Unirest
+          .get(RestServiceType.ANIME_API_URL + "/img/8ball")
+          .header("Accept", "application/json")
+          .asJson();
+
+      MessageChannel messageChannel = commandSender.getMessageChannel();
+      String lastMessageId = messageChannel.getLatestMessageId();
+      String lastMessage = messageChannel.retrieveMessageById(lastMessageId).complete().getContentRaw()
+          .split(" ")[1];
+      String properMessage = dMessage.getData();
+
+      System.out.println("proper: " + properMessage);
+      System.out.println("last: " + lastMessage);
+
+      if (!properMessage.contains("?")) {
+        MessageEmbed messageEmbed = new EmbedBuilder()
+            .setColor(Color.RED)
+            .setFooter("Do you know, that every question has a question mark at the end of it?", null)
+            .build();
+
+        commandSender.sendEmbedMessage(messageEmbed);
+        return;
+      }
+
+      MessageEmbed messageEmbed = new EmbedBuilder()
+          .setColor(Color.decode("#3b5998"))
+          .setTitle(dMessage.getData())
+          .setImage(httpResponse.getBody().getObject().getString("url"))
+          .build();
+
+      commandSender.sendEmbedMessage(messageEmbed);
+    } catch (UnirestException e) {
+      e.printStackTrace();
+    }
+  }
+
+}
