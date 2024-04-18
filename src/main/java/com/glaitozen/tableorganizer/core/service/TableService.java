@@ -2,10 +2,13 @@ package com.glaitozen.tableorganizer.core.service;
 
 import com.glaitozen.tableorganizer.core.mapper.h2.TableH2Mapper;
 import com.glaitozen.tableorganizer.core.model.Table;
+import com.glaitozen.tableorganizer.core.model.User;
 import com.glaitozen.tableorganizer.repository.TableRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,18 @@ public class TableService {
     public TableService(TableRepository tableRepository, TableH2Mapper tableH2Mapper) {
         this.tableRepository = tableRepository;
         this.tableH2Mapper = tableH2Mapper;
+
+        sampleTest();
+    }
+
+    private void sampleTest() {
+        User sduclos = new User("sduclos");
+        Table expTable = new Table("Strahd", "D&D 5", sduclos);
+        User pduclos = new User("pduclos");
+        expTable.addJoueur(pduclos);
+        expTable.addPropositions(Collections.singleton(LocalDate.now().plusDays(1)));
+
+        save(expTable);
     }
 
     public Optional<Table> findById(String id) {

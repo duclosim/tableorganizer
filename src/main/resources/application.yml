@@ -2,8 +2,8 @@ spring:
   application:
     name: "tableorganizer"
   datasource:
-#    url: jdbc:h2:mem:organizer
-    url: jdbc:h2:file:./data/organizer
+    url: jdbc:h2:mem:organizer
+#    url: jdbc:h2:file:./data/organizer
     username: glaitozen
     password: "zAwA120"
     driverClassName: org.h2.Driver
@@ -14,4 +14,4 @@ spring:
       enabled: true
 
 discord:
-  token: 'our-token-discord-here'
+  token: 'MTIzMDUzNzg4NjMwMjk5NDUzMw.GnQTo7.bwgJYsetK'

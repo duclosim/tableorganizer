@@ -12,7 +12,7 @@ public class DateUtils {
     }
 
     public static LocalDate cleanPastDate(LocalDate date) {
-        return date.isBefore(LocalDate.now()) ? null : date;
+        return date == null || date.isBefore(LocalDate.now()) ? null : date;
     }
 
     public static Set<LocalDate> cleanPastDates(Set<LocalDate> dates) {
