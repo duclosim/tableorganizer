@@ -1,37 +1,38 @@
 package com.glaitozen.tableorganizer;
 
-import com.glaitozen.tableorganizer.discord.command.EchoCommand;
-import com.glaitozen.tableorganizer.discord.command.EightBallCommand;
-import com.glaitozen.tableorganizer.discord.command.FactCommand;
-import com.glaitozen.tableorganizer.discord.command.defaults.CommandRegistry;
-import com.glaitozen.tableorganizer.discord.service.DiscordService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
+import discord4j.core.DiscordClientBuilder;
+import discord4j.core.GatewayDiscordClient;
+import discord4j.core.object.presence.ClientActivity;
+import discord4j.core.object.presence.ClientPresence;
+import discord4j.rest.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class TableorganizerApplication implements CommandLineRunner {
+public class TableorganizerApplication {
 
-	private final DiscordService botService;
-	private final CommandRegistry commandRegistry;
+	@Value("${discord.token}")
+	private String discordToken;
 
-    public TableorganizerApplication(DiscordService botService, CommandRegistry commandRegistry) {
-        this.botService = botService;
-        this.commandRegistry = commandRegistry;
-    }
-
-    public static void main(String[] args) {
-		SpringApplication.run(TableorganizerApplication.class, args);
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(TableorganizerApplication.class)
+				.build()
+				.run(args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		this.botService.startBot();
+	@Bean
+	public GatewayDiscordClient gatewayDiscordClient() {
+		return DiscordClientBuilder.create(discordToken).build()
+				.gateway()
+				.setInitialPresence(ignore -> ClientPresence.online(ClientActivity.listening("to /commands")))
+				.login()
+				.block();
+	}
 
-		this.commandRegistry.registerByExecutors(
-				new FactCommand(),
-				new EightBallCommand(),
-				new EchoCommand()
-		);
+	@Bean
+	public RestClient discordRestClient(GatewayDiscordClient client) {
+		return client.getRestClient();
 	}
 }

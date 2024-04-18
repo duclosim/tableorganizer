@@ -123,10 +123,12 @@ public class Table {
     }
 
     void addProposition(LocalDate date) {
-        PropositionDeDate proposition = new PropositionDeDate(date);
-        proposition.users().add(mdJ);
-        joueurs.forEach(joueur -> proposition.users().add(joueur));
-        propositions.add(proposition);
+        if (isDateAvailable(date)) {
+            PropositionDeDate proposition = new PropositionDeDate(date);
+            proposition.users().add(mdJ);
+            joueurs.forEach(joueur -> proposition.users().add(joueur));
+            propositions.add(proposition);
+        }
     }
 
     public void addPropositions(Set<LocalDate> dates) {
@@ -143,9 +145,11 @@ public class Table {
     }
 
     public void confirmerProchaineDate(LocalDate prochaineDate) {
-        this.prochaineDate = prochaineDate;
-        mdJ.addDateOccupee(prochaineDate);
-        joueurs.forEach(joueur -> joueur.addDateOccupee(prochaineDate));
+        if (isDateAvailable(prochaineDate)) {
+            this.prochaineDate = prochaineDate;
+            mdJ.addDateOccupee(prochaineDate);
+            joueurs.forEach(joueur -> joueur.addDateOccupee(prochaineDate));
+        }
     }
 
     public void relancerJoueurs() {
