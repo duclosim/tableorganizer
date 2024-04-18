@@ -23,7 +23,7 @@ public record User(String id, String nom, Set<LocalDate> datesOccupees) {
         datesOccupees.add(date);
     }
 
-    public void notifierPropositions(Set<PropositionDeDate> propositions) {
-        // TODO
-    }
+//    public void notifierPropositions(Set<PropositionDeDate> propositions) {
+//         TODO
+//    }
 }

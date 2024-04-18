@@ -1,5 +1,6 @@
 package com.glaitozen.tableorganizer.core.service;
 
+import com.glaitozen.tableorganizer.core.mapper.h2.TableH2Mapper;
 import com.glaitozen.tableorganizer.core.model.Table;
 import com.glaitozen.tableorganizer.repository.TableRepository;
 import org.springframework.stereotype.Service;
@@ -12,17 +13,20 @@ import java.util.Optional;
 public class TableService {
 
     private final TableRepository tableRepository;
+    private final TableH2Mapper tableH2Mapper;
 
-    public TableService(TableRepository tableRepository) {
+    public TableService(TableRepository tableRepository, TableH2Mapper tableH2Mapper) {
         this.tableRepository = tableRepository;
+        this.tableH2Mapper = tableH2Mapper;
     }
 
     public Optional<Table> findById(String id) {
-        return tableRepository.findById(id);
+        return tableRepository.findById(id)
+                .map(tableH2Mapper::mapToModel);
     }
 
     public Table findByName(String nom) {
-        return tableRepository.findByNom(nom);
+        return tableH2Mapper.mapToModel(tableRepository.findByNom(nom));
     }
 
     public List<String> getAllTableNames() {
@@ -32,10 +36,10 @@ public class TableService {
     }
 
     public void save(Table table) {
-        tableRepository.save(table);
+        tableRepository.save(tableH2Mapper.mapToDto(table));
     }
 
     public void delete(Table table) {
-        tableRepository.delete(table);
+        tableRepository.delete(tableH2Mapper.mapToDto(table));
     }
 }

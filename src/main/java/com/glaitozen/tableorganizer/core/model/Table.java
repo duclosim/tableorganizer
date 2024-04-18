@@ -153,9 +153,10 @@ public class Table {
     }
 
     public void relancerJoueurs() {
+        // TODO
         if (!propositions.isEmpty()) {
             for (User joueur : joueurs) {
-                joueur.notifierPropositions(propositions);
+//                joueur.notifierPropositions(propositions);
             }
         }
     }

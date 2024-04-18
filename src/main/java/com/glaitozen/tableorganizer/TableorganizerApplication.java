@@ -1,5 +1,6 @@
 package com.glaitozen.tableorganizer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.presence.ClientActivity;
@@ -20,6 +21,11 @@ public class TableorganizerApplication {
 		new SpringApplicationBuilder(TableorganizerApplication.class)
 				.build()
 				.run(args);
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
 
 	@Bean
