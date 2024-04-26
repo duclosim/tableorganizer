@@ -1,0 +1,12 @@
+{
+  "name": "table_creer",
+  "description": "Crée une nouvelle table",
+  "options": [
+    {
+      "name": "name",
+      "description": "Your name",
+      "type": 3,
+      "required": true
+    }
+  ]
+}

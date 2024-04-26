@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public interface H2Mapper<M, D> {
+public interface H2Mapper<Model, Dto> {
 
-    D mapToDto(M m);
+    Dto mapToDto(Model model);
 
-    List<D> mapToDtoList(Collection<M> m);
+    List<Dto> mapToDtoList(Collection<Model> model);
 
-    M mapToModel(D d);
+    Model mapToModel(Dto dto);
 
-    List<M> mapToModelList(Collection<D> d);
+    List<Model> mapToModelList(Collection<Dto> dto);
 
-    Set<M> mapToModelSet(Collection<D> d);
+    Set<Model> mapToModelSet(Collection<Dto> dto);
 }

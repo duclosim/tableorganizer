@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.glaitozen.tableorganizer.core.model.User;
 import com.glaitozen.tableorganizer.repository.dto.UserH2Dto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public class UserH2Mapper extends AbstractH2Mapper<User, UserH2Dto> implements H
 
     private final ObjectMapper objectMapper;
 
-    public UserH2Mapper(ObjectMapper objectMapper) {
+    public UserH2Mapper(@Qualifier("customObjectMapper") ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -41,8 +42,7 @@ public class UserH2Mapper extends AbstractH2Mapper<User, UserH2Dto> implements H
         }
         List<LocalDate> userDates;
         try {
-            userDates = objectMapper.readValue(dto.getDatesOccupees(), new TypeReference<>() {
-            });
+            userDates = objectMapper.readValue(dto.getDatesOccupees(), new TypeReference<>() {});
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

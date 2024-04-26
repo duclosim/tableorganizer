@@ -29,7 +29,8 @@ public class Table {
         this.systeme = systeme;
         this.mdJ = mdJ;
         this.joueurs = joueurs;
-        this.propositions = DateUtils.cleanPastPropositionDeDates(propositions);
+        this.propositions = DateUtils.cleanPastPropositionDeDateCollection(propositions);
+        this.propositions.forEach(ppd -> ppd.addMdJEtJoueurs(this.mdJ, this.joueurs));
         this.prochaineDate = DateUtils.cleanPastDate(prochaineDate);
         this.rappels = rappels;
     }
@@ -81,7 +82,7 @@ public class Table {
     }
 
     public boolean isDateAvailable(LocalDate date) {
-        return joueurs.stream().allMatch(j -> j.isAvailable(date)) && mdJ.isAvailable(date);
+        return joueurs.stream().allMatch(joueur -> joueur.isAvailable(date)) && mdJ.isAvailable(date);
     }
 
     @Override
@@ -116,18 +117,20 @@ public class Table {
 
     public void addJoueur(User joueur) {
         joueurs.add(joueur);
+        propositions.forEach(ppd -> ppd.users().add(joueur));
     }
 
     public void removeJoueur(User joueur) {
         joueurs.remove(joueur);
+        propositions.forEach(ppd -> ppd.users().remove(joueur));
     }
 
     void addProposition(LocalDate date) {
         if (isDateAvailable(date)) {
             PropositionDeDate proposition = new PropositionDeDate(date);
-            proposition.users().add(mdJ);
-            joueurs.forEach(joueur -> proposition.users().add(joueur));
+            proposition.addMdJEtJoueurs(mdJ, joueurs);
             propositions.add(proposition);
+            relancerJoueurs();
         }
     }
 

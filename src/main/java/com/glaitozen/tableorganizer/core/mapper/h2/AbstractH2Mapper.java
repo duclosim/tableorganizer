@@ -5,24 +5,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractH2Mapper<M, D> implements H2Mapper<M, D> {
+public abstract class AbstractH2Mapper<Model, Dto> implements H2Mapper<Model, Dto> {
 
     @Override
-    public List<D> mapToDtoList(Collection<M> modelCollection) {
+    public List<Dto> mapToDtoList(Collection<Model> modelCollection) {
         return modelCollection.stream()
                 .map(this::mapToDto)
                 .toList();
     }
 
     @Override
-    public List<M> mapToModelList(Collection<D> dtoCollection) {
+    public List<Model> mapToModelList(Collection<Dto> dtoCollection) {
         return dtoCollection.stream()
                 .map(this::mapToModel)
                 .toList();
     }
 
     @Override
-    public Set<M> mapToModelSet(Collection<D> dtoCollection) {
+    public Set<Model> mapToModelSet(Collection<Dto> dtoCollection) {
         return new HashSet<>(mapToModelList(dtoCollection));
     }
 }

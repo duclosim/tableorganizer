@@ -1,6 +1,7 @@
 package com.glaitozen.tableorganizer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.presence.ClientActivity;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+
+import java.text.SimpleDateFormat;
 
 @SpringBootApplication
 public class TableorganizerApplication {
@@ -23,9 +26,12 @@ public class TableorganizerApplication {
 				.run(args);
 	}
 
-	@Bean
+	@Bean("customObjectMapper")
 	public ObjectMapper objectMapper() {
-		return new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+		return objectMapper;
 	}
 
 	@Bean
