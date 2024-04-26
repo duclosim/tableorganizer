@@ -29,12 +29,17 @@ public class TableFactory {
     }
 
     public static Table createTable(String nomTable, User mdJ) {
+        Table table = createTableSansConfirmerProchaineDate(nomTable, mdJ);
+        table.confirmerProchaineDate(randomFutureLocalDate());
+        return table;
+    }
+
+    public static Table createTableSansConfirmerProchaineDate(String nomTable, User mdJ) {
         Table table = new Table(nomTable, "systeme", mdJ);
         createUserList(randomInt(MIN_JOUEURS, MAX_JOUEURS)).forEach(table::addJoueur);
         table.addPropositions(IntStream.range(MIN_PROPOSITIONS_DE_DATE, MAX_PROPOSITIONS_DE_DATE)
                 .mapToObj(i -> randomFutureLocalDate())
                 .collect(Collectors.toSet()));
-        table.confirmerProchaineDate(randomFutureLocalDate());
         table.addRappel(UN_JOUR_AVANT);
         table.addRappel(DEUX_JOURS_AVANT);
         table.addRappel(TROIS_JOURS_AVANT);

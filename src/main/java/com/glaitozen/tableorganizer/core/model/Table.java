@@ -90,15 +90,12 @@ public class Table {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Table table = (Table) o;
-        return Objects.equals(id, table.id) && Objects.equals(nom, table.nom) && Objects.equals(systeme, table.systeme)
-                && Objects.equals(mdJ, table.mdJ) && Objects.equals(joueurs, table.joueurs)
-                && Objects.equals(propositions, table.propositions) && Objects.equals(prochaineDate, table.prochaineDate)
-                && Objects.equals(rappels, table.rappels);
+        return Objects.equals(id, table.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nom, systeme, mdJ, joueurs, propositions, prochaineDate, rappels);
+        return Objects.hashCode(id);
     }
 
     @Override
@@ -130,7 +127,6 @@ public class Table {
             PropositionDeDate proposition = new PropositionDeDate(date);
             proposition.addMdJEtJoueurs(mdJ, joueurs);
             propositions.add(proposition);
-            relancerJoueurs();
         }
     }
 

@@ -1,6 +1,5 @@
 package com.glaitozen.tableorganizer.core.model;
 
-import testutils.factory.model.UserFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

@@ -5,6 +5,7 @@ import com.glaitozen.tableorganizer.utils.DateUtils;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -39,6 +40,19 @@ public record User(String id, String nom, Set<LocalDate> datesOccupees) {
 
     public void clearDateOccupees() {
         datesOccupees.retainAll(DateUtils.cleanPastDateCollection(datesOccupees));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     //    public void notifierPropositions(Set<PropositionDeDate> propositions) {

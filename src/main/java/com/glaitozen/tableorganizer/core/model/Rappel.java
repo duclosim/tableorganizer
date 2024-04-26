@@ -11,6 +11,10 @@ public enum Rappel {
         this.nbJours = nbJours;
     }
 
+    public int getNbJours() {
+        return nbJours;
+    }
+
     public LocalDate calculeDateRappel(LocalDate date) {
         return date.minusDays(nbJours);
     }
