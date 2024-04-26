@@ -4,6 +4,7 @@ import com.glaitozen.tableorganizer.repository.dto.PropositionDeDateH2Dto;
 import com.glaitozen.tableorganizer.repository.dto.TableH2Dto;
 import com.glaitozen.tableorganizer.repository.dto.UserH2Dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -31,7 +32,11 @@ public class TableH2DtoFactory {
                         .mapToObj(i -> new PropositionDeDateH2Dto(UUID.randomUUID().toString(), randomFutureLocalDate(), joueurs))
                         .toList(),
                 randomFutureLocalDate(), true, false, false);
-        dto.getPropositions().forEach(ppd -> ppd.getUsers().add(mdJ));
+        dto.getPropositions().forEach(ppd -> {
+            List<UserH2Dto> ppdUsers = new ArrayList<>(ppd.getUsers());
+            ppdUsers.add(mdJ);
+            ppd.setUsers(ppdUsers);
+        });
         return dto;
     }
 

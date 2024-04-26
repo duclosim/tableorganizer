@@ -2,21 +2,20 @@ package com.glaitozen.tableorganizer.core.mapper.h2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.glaitozen.tableorganizer.core.model.PropositionDeDate;
 import com.glaitozen.tableorganizer.core.model.Rappel;
 import com.glaitozen.tableorganizer.core.model.Table;
-import com.glaitozen.tableorganizer.core.model.User;
 import com.glaitozen.tableorganizer.repository.dto.TableH2Dto;
-import com.glaitozen.tableorganizer.repository.dto.UserH2Dto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.glaitozen.tableorganizer.core.mapper.h2.PropositionDeDateH2MapperTest.assertMapDtoListToModelSetIsOk;
+import static com.glaitozen.tableorganizer.core.mapper.h2.PropositionDeDateH2MapperTest.assertMapModelSetToDtoListIsOk;
+import static com.glaitozen.tableorganizer.core.mapper.h2.UserH2MapperTest.assertMapUserListToModelSetIsOk;
+import static com.glaitozen.tableorganizer.core.mapper.h2.UserH2MapperTest.assertMapUserSetToDtoListIsOk;
 import static com.glaitozen.tableorganizer.core.mapper.h2.UserH2MapperTest.assertMapUserToDtoIsOk;
 import static com.glaitozen.tableorganizer.core.mapper.h2.UserH2MapperTest.assertMapUserToModelIsOk;
 import static com.glaitozen.tableorganizer.core.model.Rappel.DEUX_JOURS_AVANT;
@@ -61,23 +60,8 @@ class TableH2MapperTest {
         assertThat(result.getNom()).isEqualTo(model.getNom());
         assertThat(result.getSysteme()).isEqualTo(model.getSysteme());
         assertMapUserToDtoIsOk(result.getMdJ(), model.getMdJ(), objectMapper);
-        assertThat(result.getJoueurs()).hasSameSizeAs(model.getJoueurs());
-        result.getJoueurs().forEach(joueurDto -> {
-            Optional<User> matchingUserModel = model.getJoueurs().stream()
-                    .filter(joueur -> Objects.equals(joueur.id(), joueurDto.getId()))
-                    .findAny();
-            assertThat(matchingUserModel).isPresent();
-            assertMapUserToDtoIsOk(joueurDto, matchingUserModel.get(), objectMapper);
-        });
-        assertThat(result.getPropositions()).hasSameSizeAs(model.getPropositions());
-        result.getPropositions().forEach(propositionDto -> {
-            Optional<PropositionDeDate> matchingProposition = model.getPropositions().stream()
-                    .filter(ppd -> Objects.equals(ppd.id(), propositionDto.getId()))
-                    .findAny();
-            assertThat(matchingProposition).isPresent();
-            // TODO proposition de date asserts
-        });
-
+        assertMapUserSetToDtoListIsOk(result.getJoueurs(), model.getJoueurs(), objectMapper);
+        assertMapModelSetToDtoListIsOk(result.getPropositions(), model.getPropositions(), objectMapper);
         assertThat(result.getProchaineDate()).isEqualTo(model.getProchaineDate());
         if (result.isRappelUn()) {
             assertThat(model.getRappels()).contains(UN_JOUR_AVANT);
@@ -118,17 +102,8 @@ class TableH2MapperTest {
         assertThat(result.getNom()).isEqualTo(dto.getNom());
         assertThat(result.getSysteme()).isEqualTo(dto.getSysteme());
         assertMapUserToModelIsOk(result.getMdJ(), dto.getMdJ(), objectMapper);
-        assertThat(result.getJoueurs()).hasSameSizeAs(dto.getJoueurs());
-        result.getJoueurs().forEach(joueur -> {
-            Optional<UserH2Dto> matchingJoueur = dto.getJoueurs().stream()
-                    .filter(joueurDto -> Objects.equals(joueurDto.getId(), joueur.id()))
-                    .findAny();
-            assertThat(matchingJoueur).isPresent();
-            assertMapUserToModelIsOk(joueur, matchingJoueur.get(), objectMapper);
-        });
-        // TODO assert joueurs
-        assertThat(result.getPropositions()).hasSameSizeAs(dto.getPropositions());
-        // TODO assert pp de date
+        assertMapUserListToModelSetIsOk(result.getJoueurs(), dto.getJoueurs(), objectMapper);
+        assertMapDtoListToModelSetIsOk(result.getPropositions(), dto.getPropositions(), objectMapper);
         assertThat(result.getProchaineDate()).isEqualTo(dto.getProchaineDate());
         long nbRappels = 0L;
         for (Rappel rappel : result.getRappels()) {

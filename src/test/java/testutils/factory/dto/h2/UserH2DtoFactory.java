@@ -2,11 +2,15 @@ package testutils.factory.dto.h2;
 
 import com.glaitozen.tableorganizer.repository.dto.UserH2Dto;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
 public class UserH2DtoFactory {
+
+    public static final List<UserH2Dto> USER_H2_DTO_LIST = Arrays.asList(UserH2DtoFactory.createUserH2Dto("Matt"), UserH2DtoFactory.createUserH2Dto("Simon"),
+            UserH2DtoFactory.createUserH2Dto("Nil"), UserH2DtoFactory.createUserH2Dto("Mei"));
 
     public static UserH2Dto createUserH2Dto() {
         return createUserH2Dto("set nom");

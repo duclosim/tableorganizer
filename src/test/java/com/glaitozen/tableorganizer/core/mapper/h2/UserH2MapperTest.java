@@ -14,6 +14,9 @@ import testutils.factory.model.UserFactory;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,6 +61,17 @@ class UserH2MapperTest {
         }
     }
 
+    static void assertMapUserSetToDtoListIsOk(List<UserH2Dto> resultList, Set<User> modelSet, ObjectMapper objectMapper) {
+        assertThat(resultList).hasSameSizeAs(modelSet);
+        resultList.forEach(joueurDto -> {
+            Optional<User> matchingUserModel = modelSet.stream()
+                    .filter(joueur -> Objects.equals(joueur.id(), joueurDto.getId()))
+                    .findAny();
+            assertThat(matchingUserModel).isPresent();
+            assertMapUserToDtoIsOk(joueurDto, matchingUserModel.get(), objectMapper);
+        });
+    }
+
     @Test
     void mapToDtoList_should_map_all_objects_correctly() {
         // GIVEN
@@ -98,6 +112,17 @@ class UserH2MapperTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static void assertMapUserListToModelSetIsOk(Set<User> resultSet, List<UserH2Dto> dtoList, ObjectMapper objectMapper) {
+        assertThat(resultSet).hasSameSizeAs(dtoList);
+        resultSet.forEach(joueur -> {
+            Optional<UserH2Dto> matchingJoueur = dtoList.stream()
+                    .filter(joueurDto -> Objects.equals(joueurDto.getId(), joueur.id()))
+                    .findAny();
+            assertThat(matchingJoueur).isPresent();
+            assertMapUserToModelIsOk(joueur, matchingJoueur.get(), objectMapper);
+        });
     }
 
     @Test
