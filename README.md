@@ -16,7 +16,7 @@ ATTACHMENT	11	File attachment
 
 US : 
  - soumettre une table
- - soumetre des dispos personnelles
+ - soumettre des dispos personnelles
    -> signaler la non dispo sur une liste de dates jj/mm
  - relancer une demande de dispo pour une table
  - confirmer une date
@@ -33,7 +33,7 @@ Data :
    - liste de dates proposées
    - prochaine date confirmée
  - joueur extends utilisateur
- - MJ exends utilisateur
+ - MJ extends utilisateur
  - utilisateur
    - id
    - nom
