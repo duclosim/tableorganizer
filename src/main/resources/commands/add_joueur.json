@@ -1,6 +1,6 @@
 {
-  "name": "confirmer_date",
-  "description": "Confirme une date proposée pour une table",
+  "name": "add_joueur",
+  "description": "Ajoute un joueur à une table",
   "type": 1,
   "options": [
     {
@@ -10,9 +10,9 @@
       "required": true
     },
     {
-      "name": "date",
-      "description": "Date à confirmer (AAAA-MM-JJ)",
-      "type": 3,
+      "name": "joueur",
+      "description": "Utilisateur à ajouter",
+      "type": 6,
       "required": true
     }
   ]

@@ -1,0 +1,9 @@
+{
+  "name": "proposer_dates",
+  "description": "Propose une date pour une table",
+  "type": 1,
+  "options": [
+    { "name": "table", "description": "Nom ou ID de la table", "type": 3, "required": true },
+    { "name": "date", "description": "Date proposée (AAAA-MM-JJ)", "type": 3, "required": true }
+  ]
+}

@@ -1,6 +1,6 @@
 {
-  "name": "relancer_joueurs",
-  "description": "Relance les joueurs d'une table pour répondre aux propositions",
+  "name": "rm_table",
+  "description": "Supprime une table existante",
   "type": 1,
   "options": [
     { "name": "table", "description": "Nom ou ID de la table", "type": 3, "required": true }

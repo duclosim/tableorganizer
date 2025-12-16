@@ -1,0 +1,9 @@
+{
+  "name": "rm_joueur",
+  "description": "Retire un joueur d'une table",
+  "type": 1,
+  "options": [
+    { "name": "table", "description": "Nom ou ID de la table", "type": 3, "required": true },
+    { "name": "joueur", "description": "Utilisateur à retirer", "type": 6, "required": true }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "add_rappel",
+  "description": "Ajoute un rappel pour une table",
+  "type": 1,
+  "options": [
+    {
+      "name": "table",
+      "description": "Nom ou ID de la table",
+      "type": 3,
+      "required": true
+    },
+    {
+      "name": "rappel",
+      "description": "Choisir le rappel (1, 2 ou 3 jours avant)",
+      "type": 3,
+      "required": true,
+      "choices": [
+        { "name": "Un jour avant", "value": "UN_JOUR_AVANT" },
+        { "name": "Deux jours avant", "value": "DEUX_JOURS_AVANT" },
+        { "name": "Trois jours avant", "value": "TROIS_JOURS_AVANT" }
+      ]
+    }
+  ]
+}

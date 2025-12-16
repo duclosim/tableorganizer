@@ -1,6 +1,6 @@
 {
-  "name": "annuler_prochaine_date",
-  "description": "Annule la prochaine date prévue pour une table",
+  "name": "propositions_date",
+  "description": "Affiche les propositions de dates pour une table",
   "type": 1,
   "options": [
     {

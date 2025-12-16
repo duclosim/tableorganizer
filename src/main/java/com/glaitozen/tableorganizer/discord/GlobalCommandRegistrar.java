@@ -39,7 +39,7 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
         //Get our commands json from resources as command data
         List<ApplicationCommandRequest> commands = new ArrayList<>();
-        for (Resource resource : matcher.getResources("commands/*.json")) {
+        for (Resource resource : matcher.getResources("classpath:/commands/*.json")) {
             ApplicationCommandRequest request = d4jMapper.getObjectMapper()
                     .readValue(resource.getInputStream(), ApplicationCommandRequest.class);
 
@@ -48,8 +48,8 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
         // Bulk overwrite commands, this is now idempotent.
         applicationService.bulkOverwriteGlobalApplicationCommand(applicationId, commands)
-                .doOnNext(ignore -> LOGGER.debug("Successfully registered Global Commands"))
+                .doOnNext(ignore -> LOGGER.info("Successfully registered Global Commands"))
                 .doOnError(e -> LOGGER.error("Failed to register global commands", e))
-                .subscribe();
+                .blockLast();
     }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "annuler_prochaine_date",
-  "description": "Annule la prochaine date prévue pour une table",
+  "name": "table",
+  "description": "Affiche les détails d'une table (joueurs, système, dates, rappels)",
   "type": 1,
   "options": [
     {

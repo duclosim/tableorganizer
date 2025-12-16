@@ -1,0 +1,10 @@
+{
+  "name": "modifier_table",
+  "description": "Modifie les informations d'une table",
+  "type": 1,
+  "options": [
+    { "name": "table", "description": "Nom ou ID de la table", "type": 3, "required": true },
+    { "name": "nom", "description": "Nouveau nom de la table", "type": 3, "required": false },
+    { "name": "systeme", "description": "Nouveau système de jeu", "type": 3, "required": false }
+  ]
+}

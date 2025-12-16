@@ -1,11 +1,24 @@
 {
-  "name": "table_creer",
-  "description": "Crée une nouvelle table",
+  "name": "creer_table",
+  "description": "Créer une nouvelle table de JdR",
+  "type": 1,
   "options": [
     {
-      "name": "name",
-      "description": "Your name",
+      "name": "nom",
+      "description": "Nom de la table",
       "type": 3,
+      "required": true
+    },
+    {
+      "name": "systeme",
+      "description": "Système de jeu",
+      "type": 3,
+      "required": true
+    },
+    {
+      "name": "mdj",
+      "description": "Maître du jeu",
+      "type": 6,
       "required": true
     }
   ]

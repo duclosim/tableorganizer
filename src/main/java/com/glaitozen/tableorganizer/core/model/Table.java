@@ -3,12 +3,7 @@ package com.glaitozen.tableorganizer.core.model;
 import com.glaitozen.tableorganizer.utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Table {
@@ -19,8 +14,8 @@ public class Table {
     private final User mdJ;
     private final Set<User> joueurs;
     private final Set<PropositionDeDate> propositions;
-    private LocalDate prochaineDate;
     private final Set<Rappel> rappels;
+    private LocalDate prochaineDate;
 
     public Table(String id, String nom, String systeme, User mdJ, Set<User> joueurs, Set<PropositionDeDate> propositions,
                  LocalDate prochaineDate, Set<Rappel> rappels) {
