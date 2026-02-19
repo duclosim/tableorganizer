@@ -58,8 +58,4 @@ public record User(String id, String nom, Set<LocalDate> datesOccupees) {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-    //    public void notifierPropositions(Set<PropositionDeDate> propositions) {
-//         TODO
-//    }
 }

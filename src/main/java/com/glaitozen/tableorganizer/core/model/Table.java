@@ -127,7 +127,6 @@ public class Table {
 
     public void addPropositions(Set<LocalDate> dates) {
         dates.forEach(this::addProposition);
-        relancerJoueurs();
     }
 
     public void addRappel(Rappel r) {
@@ -155,26 +154,15 @@ public class Table {
     }
 
     public void annulerProchaineDate() {
-        if (prochaineDate == null) {
-            return;
+        if (prochaineDate != null) {
+            LocalDate date = prochaineDate;
+            prochaineDate = null;
+            mdJ.removeDateOccupee(date);
+            joueurs.forEach(joueur -> joueur.removeDateOccupee(date));
         }
-        LocalDate date = prochaineDate;
-        prochaineDate = null;
-        mdJ.removeDateOccupee(date);
-        joueurs.forEach(joueur -> joueur.removeDateOccupee(date));
     }
 
     public void removePropositionByDate(LocalDate date) {
         propositions.removeIf(ppd -> ppd.date().equals(date));
     }
-
-    public void relancerJoueurs() {
-        // TODO
-        if (!propositions.isEmpty()) {
-            for (User joueur : joueurs) {
-//                joueur.notifierPropositions(propositions);
-            }
-        }
-    }
-
 }
