@@ -26,8 +26,8 @@ public class TableH2Mapper extends AbstractH2Mapper<Table, TableH2Dto> implement
         }
         boolean rappelUn, rappelDeux, rappelTrois;
         rappelUn = model.getRappels().contains(Rappel.UN_JOUR_AVANT);
-        rappelDeux = model.getRappels().contains(Rappel.UN_JOUR_AVANT);
-        rappelTrois = model.getRappels().contains(Rappel.UN_JOUR_AVANT);
+        rappelDeux = model.getRappels().contains(Rappel.DEUX_JOURS_AVANT);
+        rappelTrois = model.getRappels().contains(Rappel.TROIS_JOURS_AVANT);
 
         return new TableH2Dto(model.getId(), model.getNom(), model.getSysteme(), userH2Mapper.mapToDto(model.getMdJ()),
                 userH2Mapper.mapToDtoList(model.getJoueurs()), propositionDeDateH2Mapper.mapToDtoList(model.getPropositions()),

@@ -34,7 +34,10 @@ public class ManuelCommand implements SlashCommand {
                         "`/proposer_dates table date`\nProposer une date\n" +
                                 "`/propositions_date table`\nVoir les propositions\n" +
                                 "`/confirmer_date table date`\nConfirmer une date\n" +
-                                "`/annuler_date table`\nAnnuler la prochaine date",
+                                "`/annuler_prochaine_date table`\nAnnuler la prochaine date\n" +
+                                "`/rm_proposition_date table date`\nEffacer une proposition\n" +
+                                "`/prochaine_date table`\nVoir la prochaine date confirmée\n" +
+                                "`/relancer_joueurs table`\nRelancer les joueurs",
                         false)
                 .addField("⏰ Rappels",
                         "`/add_rappel table rappel`\nAjouter un rappel (1, 2 ou 3 jours avant)\n" +

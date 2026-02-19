@@ -38,6 +38,10 @@ public record User(String id, String nom, Set<LocalDate> datesOccupees) {
         datesOccupees.addAll(dateSet);
     }
 
+    public void removeDateOccupee(LocalDate date) {
+        datesOccupees.remove(date);
+    }
+
     public void clearDateOccupees() {
         datesOccupees.retainAll(DateUtils.cleanPastDateCollection(datesOccupees));
     }

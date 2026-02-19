@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 public class Table {
 
     private final String id;
-    private final String nom;
-    private final String systeme;
+    private String nom;
+    private String systeme;
     private final User mdJ;
     private final Set<User> joueurs;
     private final Set<PropositionDeDate> propositions;
@@ -144,6 +144,28 @@ public class Table {
             mdJ.addDateOccupee(prochaineDate);
             joueurs.forEach(joueur -> joueur.addDateOccupee(prochaineDate));
         }
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setSysteme(String systeme) {
+        this.systeme = systeme;
+    }
+
+    public void annulerProchaineDate() {
+        if (prochaineDate == null) {
+            return;
+        }
+        LocalDate date = prochaineDate;
+        prochaineDate = null;
+        mdJ.removeDateOccupee(date);
+        joueurs.forEach(joueur -> joueur.removeDateOccupee(date));
+    }
+
+    public void removePropositionByDate(LocalDate date) {
+        propositions.removeIf(ppd -> ppd.date().equals(date));
     }
 
     public void relancerJoueurs() {
