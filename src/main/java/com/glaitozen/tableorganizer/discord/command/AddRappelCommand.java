@@ -4,6 +4,8 @@ import com.glaitozen.tableorganizer.core.model.Rappel;
 import com.glaitozen.tableorganizer.core.service.TableService;
 import com.glaitozen.tableorganizer.discord.SlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.object.command.ApplicationCommandInteractionOption;
+import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -24,13 +26,13 @@ public class AddRappelCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         var tableName = event.getOption("table")
-                .flatMap(opt -> opt.getValue())
-                .map(val -> val.asString())
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asString)
                 .orElse(null);
 
         String rappelStr = event.getOption("rappel")
-                .flatMap(opt -> opt.getValue())
-                .map(val -> val.asString())
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asString)
                 .orElse(null);
 
         if (tableName == null || rappelStr == null) {
